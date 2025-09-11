@@ -11,7 +11,7 @@ export default function Home() {
 		<main>
 			<Header />
 			<Search />
-			<div className="grid-cols-4 grid gap-6">
+			<div className="grid-cols-4 grid gap-6 mx-7">
 				{patients.map(user => (
 					<UserCard key={user.patient_id} user={user} />
 				))}
