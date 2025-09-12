@@ -9,7 +9,6 @@ import {
 	Dispatch,
 	ReactNode,
 	SetStateAction,
-	Suspense,
 	useContext,
 	useEffect,
 	useState,
@@ -38,7 +37,10 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 		setPagination(pagination);
 		if (page > pagination.totalPages)
 			router.push(
-				`?page=${pagination.totalPages}&limit=${limit}&input=${input}`
+				`?page=${Math.max(
+					1,
+					pagination.totalPages
+				)}&limit=${limit}&input=${input}`
 			);
 	}
 	const debouncedSearch = useDebounce(searchUsers, 400);
@@ -48,13 +50,11 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 	}, [input, page, limit]);
 
 	return (
-		<Suspense>
-			<SearchContext.Provider
-				value={{ userList, setUserList, setInput, pagination }}
-			>
-				{children}
-			</SearchContext.Provider>
-		</Suspense>
+		<SearchContext.Provider
+			value={{ userList, setUserList, setInput, pagination }}
+		>
+			{children}
+		</SearchContext.Provider>
 	);
 }
 
