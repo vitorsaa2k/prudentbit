@@ -33,7 +33,6 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 	const [pagination, setPagination] = useState<Pagination | null>(null);
 	async function searchUsers() {
 		const { data, pagination } = await getPaginatedPatients(page, limit, input);
-		console.log(data, pagination);
 		setUserList(data);
 		setPagination(pagination);
 		if (page > pagination.totalPages)

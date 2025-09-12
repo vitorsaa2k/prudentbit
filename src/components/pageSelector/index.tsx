@@ -6,7 +6,6 @@ import { getPagesOffset } from "@/utils/getPageOffset";
 
 export function PageSelector() {
 	const { pagination } = useSearch();
-	console.log(pagination);
 	if (!pagination) return;
 	const offsetPages = getPagesOffset(pagination.page, pagination.totalPages);
 	return (
