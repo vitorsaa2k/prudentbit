@@ -5,4 +5,5 @@ Or just use the deployed version at `https://prudentbit-five.vercel.app`
 
 ### Architectural decisions
 - I did not have enough time to add filters and responsivity. But all of them was planned to be added.
-- Only debounced search inclunding multiple fields is avaliable(patient_name and medical_issue).
+- Debounced search inclunding multiple fields is avaliable(patient_name and medical_issue).
+- Pagination is also included.
