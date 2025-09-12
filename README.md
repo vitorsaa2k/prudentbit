@@ -1,5 +1,5 @@
 ### Setup instructions
-Just run `npm run ci` and `npm run dev`. server will start at `http://localhost:3000`
+Just run `npm ci` and `npm run dev`. server will start at `http://localhost:3000`
 
 Or just use the deployed version at `https://prudentbit-five.vercel.app`
 
