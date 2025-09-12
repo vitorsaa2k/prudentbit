@@ -1,16 +1,5 @@
-"use client";
-import { Header } from "@/components/header";
-import { PageSelector } from "@/components/pageSelector";
-import { Search } from "@/components/search";
-import { UserCardContainer } from "@/features/userCardContainer";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-	return (
-		<main>
-			<Header />
-			<Search />
-			<UserCardContainer />
-			<PageSelector />
-		</main>
-	);
+	redirect(`/patients/?page=1&limit=20&input=`);
 }
