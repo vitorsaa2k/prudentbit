@@ -1,7 +1,9 @@
 "use client";
 import { useDebounce } from "@/hooks/useDebounce";
-import { getUsers } from "@/services/user";
+import { getPaginatedPatients } from "@/services/user";
+import { Pagination } from "@/types/api";
 import { User } from "@/types/user";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
 	createContext,
 	Dispatch,
@@ -14,6 +16,7 @@ import {
 
 type SearchContextType = {
 	userList: User[] | null;
+	pagination: Pagination | null;
 	setUserList: Dispatch<SetStateAction<User[] | null>>;
 	setInput: Dispatch<SetStateAction<string>>;
 };
@@ -21,20 +24,33 @@ type SearchContextType = {
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
 export function SearchProvider({ children }: { children: ReactNode }) {
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const page = Math.max(1, parseInt(searchParams.get("page") ?? "1"));
+	const limit = parseInt(searchParams.get("limit") ?? "20");
 	const [userList, setUserList] = useState<User[] | null>([]);
 	const [input, setInput] = useState("");
+	const [pagination, setPagination] = useState<Pagination | null>(null);
 	async function searchUsers() {
-		const users = await getUsers(input);
-		setUserList(users);
+		const { data, pagination } = await getPaginatedPatients(page, limit, input);
+		console.log(data, pagination);
+		setUserList(data);
+		setPagination(pagination);
+		if (page > pagination.totalPages)
+			router.push(
+				`?page=${pagination.totalPages}&limit=${limit}&input=${input}`
+			);
 	}
 	const debouncedSearch = useDebounce(searchUsers, 400);
 
 	useEffect(() => {
 		debouncedSearch();
-	}, [input]);
+	}, [input, page, limit]);
 
 	return (
-		<SearchContext.Provider value={{ userList, setUserList, setInput }}>
+		<SearchContext.Provider
+			value={{ userList, setUserList, setInput, pagination }}
+		>
 			{children}
 		</SearchContext.Provider>
 	);
