@@ -9,6 +9,7 @@ import {
 	Dispatch,
 	ReactNode,
 	SetStateAction,
+	Suspense,
 	useContext,
 	useEffect,
 	useState,
@@ -47,11 +48,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 	}, [input, page, limit]);
 
 	return (
-		<SearchContext.Provider
-			value={{ userList, setUserList, setInput, pagination }}
-		>
-			{children}
-		</SearchContext.Provider>
+		<Suspense>
+			<SearchContext.Provider
+				value={{ userList, setUserList, setInput, pagination }}
+			>
+				{children}
+			</SearchContext.Provider>
+		</Suspense>
 	);
 }
 
