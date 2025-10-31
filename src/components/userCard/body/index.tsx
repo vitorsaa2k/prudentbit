@@ -26,7 +26,12 @@ export function UserCardBody({ user }: { user: User }) {
 			</BodyItemWrapper>
 			<BodyItemWrapper>
 				<MailIcon />
-				<p className={cn(user.contact[0].email ?? "text-[#E60000]")}>
+				<p
+					className={cn(
+						user.contact[0].email ?? "text-[#E60000]",
+						"line-clamp-1"
+					)}
+				>
 					{user.contact[0].email ?? "N/A"}
 				</p>
 			</BodyItemWrapper>

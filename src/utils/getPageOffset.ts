@@ -1,3 +1,4 @@
+/* Returns an array of numbers based on the given */
 export function getPagesOffset(
 	current: number,
 	totalPages: number,

@@ -3,6 +3,7 @@ import Image from "next/image";
 export function HeaderImg() {
 	return (
 		<Image
+			className="max-lg:hidden"
 			width={800}
 			height={200}
 			alt="header img"

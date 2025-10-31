@@ -6,7 +6,7 @@ export function UserCardContainer() {
 	const search = useSearch();
 	if (search.userList === null) return;
 	return (
-		<div className="grid-cols-4 grid gap-6 mx-7">
+		<div className="grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 grid gap-6 mx-7">
 			{search.userList.map(user => (
 				<UserCard key={user.patient_id} user={user} />
 			))}
