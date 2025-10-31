@@ -8,8 +8,9 @@ export function PageNumber({ number }: { number: number }) {
 	const page = searchParams.get("page");
 	const limit = searchParams.get("limit");
 	const input = searchParams.get("input");
+	const sort = searchParams.get("sort");
 	function goToPage() {
-		router.push(`?page=${number}&limit=${limit}&input=${input}`);
+		router.push(`?page=${number}&limit=${limit}&input=${input}&sort=${sort}`);
 	}
 	if (!page) return;
 	return (

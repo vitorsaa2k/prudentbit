@@ -1,5 +1,6 @@
 import { User } from "./user";
 
+export type sortOptions = "id" | "name" | "age";
 export interface Pagination {
 	total: number;
 	page: number;

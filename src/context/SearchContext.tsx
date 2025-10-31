@@ -1,7 +1,7 @@
 "use client";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getPaginatedPatients } from "@/services/user";
-import { Pagination } from "@/types/api";
+import { Pagination, sortOptions } from "@/types/api";
 import { User } from "@/types/user";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -28,26 +28,36 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 	const searchParams = useSearchParams();
 	const page = Math.max(1, parseInt(searchParams.get("page") ?? "1"));
 	const limit = parseInt(searchParams.get("limit") ?? "20");
+	const sort = searchParams.get("sort") as sortOptions;
 	const [userList, setUserList] = useState<User[] | null>([]);
 	const [input, setInput] = useState("");
 	const [pagination, setPagination] = useState<Pagination | null>(null);
 	async function searchUsers() {
-		const { data, pagination } = await getPaginatedPatients(page, limit, input);
+		const { data, pagination } = await getPaginatedPatients(
+			page,
+			limit,
+			input,
+			sort
+		);
 		setUserList(data);
 		setPagination(pagination);
-		if (page > pagination.totalPages)
+		if (page > pagination.totalPages) {
 			router.push(
 				`?page=${Math.max(
 					1,
 					pagination.totalPages
-				)}&limit=${limit}&input=${input}`
+				)}&limit=${limit}&input=${input}&sort=${sort}`
 			);
+			return;
+		}
+		router.push(`?page=${page}&limit=${limit}&input=${input}&sort=${sort}`);
 	}
 	const debouncedSearch = useDebounce(searchUsers, 400);
 
 	useEffect(() => {
 		debouncedSearch();
-	}, [input, page, limit]);
+		//eslint-disable-next-line
+	}, [input, page, limit, sort]);
 
 	return (
 		<SearchContext.Provider
